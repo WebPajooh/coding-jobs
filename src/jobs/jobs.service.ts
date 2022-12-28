@@ -8,6 +8,10 @@ export class JobsService {
   constructor(@InjectModel(Job.name) private jobModel: Model<JobDocument>) {}
 
   async findAll(): Promise<Job[]> {
-    return this.jobModel.find();
+    return this.jobModel.find().select('-contact');
+  }
+
+  async findOne(id: string): Promise<Job> {
+    return this.jobModel.findOne({ _id: id });
   }
 }

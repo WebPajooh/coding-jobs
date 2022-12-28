@@ -1,13 +1,11 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { Exclude } from 'class-transformer';
 import { HydratedDocument } from 'mongoose';
 
 export type JobDocument = HydratedDocument<Job>;
 
 @Schema()
 export class Job {
-  @Prop()
-  id: string;
-
   @Prop()
   title: string;
 
@@ -16,6 +14,14 @@ export class Job {
 
   @Prop([String])
   tags: string[];
+
+  @Prop(
+    raw({
+      email: { type: String },
+      phoneNumber: { type: String },
+    }),
+  )
+  contact: Record<string, any>;
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);
